@@ -12,7 +12,7 @@ This project demonstrates the new API Gateway response streaming feature introdu
 
 ## Prerequisites
 
-- Node.js 20.x or later
+- Node.js 24.x or later
 - AWS CLI configured with appropriate credentials
 - Serverless Framework v4.25.0 or later
 - An AWS account with permissions to create Lambda functions and API Gateway resources
@@ -98,30 +98,39 @@ The frontend (`frontend/`) uses:
 #### Serverless Configuration
 
 The `serverless.yml` includes:
-- `url.invokeMode: RESPONSE_STREAM` - Configures the Lambda function URL for streaming
+- `runtime: nodejs24.x` - Uses Node.js 24.x runtime with ES modules support
 - `http` event with `response.transferMode: stream` - Enables API Gateway streaming
+- `type: module` in package.json - Enables ES modules for the Lambda function
 
 ## Key Configuration
 
-### Lambda Function URL Configuration
+### Serverless Framework Configuration
+
+The key configuration in `serverless.yml` for enabling response streaming:
 
 ```yaml
+provider:
+  runtime: nodejs24.x  # Node.js 24.x with ES modules support
+
 functions:
   streamingFunction:
     handler: handler.streamResponse
-    url:
-      invokeMode: RESPONSE_STREAM
-```
-
-### API Gateway HTTP Event Configuration
-
-```yaml
     events:
       - http:
           path: stream
           method: get
           response:
-            transferMode: stream
+            transferMode: stream  # Enables API Gateway response streaming
+```
+
+### Package.json Configuration
+
+Enable ES modules support by adding to `package.json`:
+
+```json
+{
+  "type": "module"
+}
 ```
 
 ## Customization
@@ -143,7 +152,7 @@ const messages = [
 Change the delay in `handler.js`:
 
 ```javascript
-await new Promise(resolve => setTimeout(resolve, 500)); // 500ms delay
+await new Promise(resolve => setTimeout(resolve, 2000)); // 2000ms delay (2 seconds)
 ```
 
 ### Change Response Format
@@ -164,9 +173,17 @@ If you encounter CORS errors, ensure the Lambda function includes proper CORS he
 ### Stream Not Working
 
 1. Verify you're using Serverless Framework v4.25.0 or later
-2. Check that the Lambda function is using Node.js 20.x runtime
+2. Check that the Lambda function is using Node.js 24.x runtime
 3. Ensure the API Gateway endpoint URL is correct
 4. Check CloudWatch logs for Lambda errors: `npx serverless logs -f streamingFunction`
+
+### ES Module Syntax Errors
+
+If you see errors like `SyntaxError: Unexpected token 'export'`:
+
+1. Ensure `package.json` includes `"type": "module"`
+2. Redeploy the function after adding this field
+3. The Lambda function requires ES modules support to use the `export` syntax
 
 ### Empty Response
 

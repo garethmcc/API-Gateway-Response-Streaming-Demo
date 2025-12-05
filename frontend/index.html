@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Gateway Response Streaming Demo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>API Gateway Response Streaming Demo</h1>
+        <p class="subtitle">Serverless Framework v4.25.0+ with AWS Lambda</p>
+
+        <div class="config-section">
+            <label for="apiEndpoint">API Gateway Endpoint URL:</label>
+            <input
+                type="text"
+                id="apiEndpoint"
+                placeholder="https://your-api-id.execute-api.region.amazonaws.com/dev/stream"
+                value=""
+            >
+            <small>Enter the API Gateway endpoint URL from your deployment output</small>
+        </div>
+
+        <div class="controls">
+            <button id="startBtn" onclick="startStream()">Start Streaming</button>
+            <button id="clearBtn" onclick="clearOutput()">Clear Output</button>
+        </div>
+
+        <div id="status" class="status idle">Status: Ready</div>
+
+        <div class="progress-bar">
+            <div id="progressFill" class="progress-fill"></div>
+        </div>
+
+        <div id="output"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

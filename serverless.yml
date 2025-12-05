@@ -1,0 +1,21 @@
+service: serverless-streaming-demo
+
+frameworkVersion: '4'
+
+provider:
+  name: aws
+  runtime: nodejs24.x
+  region: us-east-1
+  stage: ${opt:stage, 'dev'}
+  memorySize: 512
+  timeout: 30
+
+functions:
+  streamingFunction:
+    handler: handler.streamResponse
+    events:
+      - http:
+          path: stream
+          method: get
+          response:
+            transferMode: stream

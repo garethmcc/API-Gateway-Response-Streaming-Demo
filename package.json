@@ -1,0 +1,27 @@
+{
+  "name": "serverless-streaming-demo",
+  "version": "1.0.0",
+  "description": "Serverless Framework v4 API Gateway Response Streaming Demo",
+  "type": "module",
+  "main": "handler.js",
+  "scripts": {
+    "dev": "http-server frontend -p 3000 -o",
+    "start": "npm run dev",
+    "deploy": "serverless deploy",
+    "remove": "serverless remove",
+    "logs": "serverless logs -f streamingFunction"
+  },
+  "keywords": [
+    "serverless",
+    "aws",
+    "lambda",
+    "streaming",
+    "api-gateway"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "serverless": "^4.25.0"
+  }
+}
